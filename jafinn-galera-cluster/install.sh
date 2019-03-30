@@ -79,7 +79,7 @@ else
     exit
 fi
 
-echo""
+echo ""
 
 # Retriving healthy status
 while ! [ $(sudo -n /usr/bin/docker ps -a | grep 'healthy' > /dev/null; echo $?) -eq 0 ]
@@ -88,13 +88,42 @@ do
     sleep 10
 done
 
-echo "How many containers would you like to run?: "
+echo ""
 
-read containerNumber
+# After these 2 are clustered, we need to remove seed container and after that you'll be able to scale more
+echo "Scaling nodes..."
+sudo docker service scale galera_node=2
 
-if [ $containerNumber -eq $containerNumber 2>/dev/null ]
-then
-    sudo docker service scale galera_node=$containerNumber
-else    
-    echo "Please provide a number!"
+echo ""
+echo "Checking health status..."
+while ! [ $(sudo -n /usr/bin/docker ps -a | grep 'healthy' > /dev/null; echo $?) -eq 0 ]
+do 
+    "Not ready yet. Sleeping for 10 seconds"
+    sleep 10
+done
+
+echo ""
+# Remove seed container
+echo "Removing seed container..."
+sudo docker service scale galera_seed=0
+
+echo "There are currently 2 nodes running. Would you like to scale more? y/n: "
+
+echo "Do you want to initialize docker swarm (necessary if you don't have swarm already) y/n?: "
+read answer2
+if [[ $answer2 =~ ^[Yy]$ ]]; then
+    echo "How many nodes do you want?: "
+    read containerNumber
+    if [ $containerNumber -eq $containerNumber 2>/dev/null ]
+    then
+        sudo docker service scale galera_node=$containerNumber
+    else    
+        echo "Please provide a number!"
+    fi
+
+elif [[ $answer2 =~ ^[Nn]$ ]]; then
+    echo "Done. Enjoy!"
+else
+    echo "Please type y or n."
+    exit
 fi
