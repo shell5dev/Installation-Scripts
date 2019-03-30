@@ -107,9 +107,9 @@ echo ""
 echo "Removing seed container..."
 sudo docker service scale galera_seed=0
 
-echo "There are currently 2 nodes running. Would you like to scale more? y/n: "
+echo ""
 
-echo "Do you want to initialize docker swarm (necessary if you don't have swarm already) y/n?: "
+echo "There are currently 2 nodes running. Would you like to scale more? y/n: "
 read answer2
 if [[ $answer2 =~ ^[Yy]$ ]]; then
     echo "How many nodes do you want?: "
