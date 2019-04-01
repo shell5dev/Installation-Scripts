@@ -1,3 +1,6 @@
+## Script request:
+https://forum.shell5.dev/topic/2/docker-galera
+
 ## Content:
 
 install.sh - Script used for deploying MariaDB Galera Cluster in Swarm

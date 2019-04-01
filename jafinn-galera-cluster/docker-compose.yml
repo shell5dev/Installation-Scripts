@@ -21,6 +21,10 @@ services:
       - mysql_root_password
   node:
     image: colinmollenhour/mariadb-galera-swarm:10.3-2018-11-07
+    deploy:
+      placement:
+        constraints:
+          - node.labels.app == nextcloud
     environment:
       - XTRABACKUP_PASSWORD_FILE=/run/secrets/xtrabackup_password
       - NODE_ADDRESS=^10.0.*.*
