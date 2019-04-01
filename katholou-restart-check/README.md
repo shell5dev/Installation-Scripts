@@ -7,9 +7,12 @@ check.sh - Script checks if server has been restarted in last 5 minutes and send
 
 ## Usage:
 
-1. SERVER_IP= # Enter IP address from central server </br>
-SERVER_USER="" # Enter user for SSH login </br>
-SERVER_SSH="" # Enter path to ssh key</br>
+1. SERVER_IP= # Enter IP address from central server
+
+SERVER_USER="" # Enter user for SSH login
+
+SERVER_SSH="" # Enter path to ssh key
+
 SERVER_SSH_PORT= # Enter ssh port number
 
 2. After you enter these parameters in script itself run it with:
