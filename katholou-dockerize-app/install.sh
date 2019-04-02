@@ -40,15 +40,13 @@ echo "Checking if docker, git and maven are installed..."
 sleep 1
 # Check if docker is installed
 function checkDeps(){
-    LIST_DOCKER="$(dpkg -s docker-ce | grep 'Status' | awk '{print $4}')"
-    LIST_GIT="$(dpkg -s git | grep 'Status' | awk '{print $4}')"
-    LIST_MAVEN="$(dpkg -s maven | grep 'Status' | awk '{print $4}')"
-    if [[ $LIST_DOCKER -eq 'installed' ]]; then
+    if hash docker 2>/dev/null; then
         echo ""
-        echo "Docker is installed." 
+        echo "Docker is installed."
     else
         echo ""
         echo "Docker is not installed, installing now..."
+        sleep 2
         sudo apt update
         sudo apt-get install \
             apt-transport-https \
@@ -66,18 +64,22 @@ function checkDeps(){
         sleep 1
         echo "Docker has been installed successfully!"
     fi
-    if [[ $LIST_GIT -eq 'installed' ]]; then
+    if hash git 2>/dev/null; then
         echo ""
-        echo "Git is installed."    
-    else 
+        echo "Git is installed."
+    else
         echo ""
         echo "Git is not installed, installing now..."
+        sleep 2
         sudo apt install git -y
     fi
-    if [[ $LIST_MAVEN -eq 'installed' ]]; then
+    if hash mvn 2>/dev/null; then
         echo ""
         echo "Maven is installed."
     else    
+        echo ""
+        echo "Maven is not installed, installing now..."
+        sleep 2
         sudo apt install maven openjdk-8-jdk -y
     fi
 }
