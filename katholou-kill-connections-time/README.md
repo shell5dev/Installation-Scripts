@@ -7,7 +7,7 @@ kill.sh - Script which kill all ssh sessions older than **30 minutes**
 ## Usage:
 
 ```bash
-bash kill.sh
+sudo bash kill.sh
 ```
 
 Optional: 
