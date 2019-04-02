@@ -76,12 +76,7 @@ function checkDeps(){
         echo ""
         echo "Maven is installed."
     else    
-        echo ""
-        echo "Maven is not installed, installing now..."
-        wget -P /tmp http://www-eu.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-        sudo mkdir -p /opt/maven
-        tar xf /tmp/apache-maven-3.3.9-bin.tar.gz -C /opt
-        echo "Maven is installed."
+        sudo apt install maven -y
     fi
 }
 
