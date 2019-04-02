@@ -11,7 +11,7 @@ Dockerfile - Utilize OpenJDK 8 to package Java application.
 Clone this repository, navigate to katholou-dockerize-app, and run install.sh
 ```
 git clone https://git.shell5.dev/shell5dev/installation-scripts.git
-cd cd katholou-dockerize-app/
+cd installation-scripts/katholou-dockerize-app/
 bash install.sh
 ```
 
