@@ -40,12 +40,14 @@ echo "Checking if docker, git and maven are installed..."
 sleep 1
 # Check if docker is installed
 function checkDeps(){
-    LIST_DOCKER="$(dpkg -l | grep docker | echo $?)"
-    LIST_GIT="$(dpkg -l | grep git | echo $?)"
-    LIST_MAVEN="$(dpkg -l | grep mvn | echo $?)"
-    if ! [[ $LIST_DOCKER -eq 0 ]]; then
+    LIST_DOCKER="$(dpkg -s docker-ce | grep 'Status' | awk '{print $4}')"
+    LIST_GIT="$(dpkg -s git | grep 'Status' | awk '{print $4}')"
+    LIST_MAVEN="$(dpkg -s maven | grep 'Status' | awk '{print $4}')"
+    if [[ $LIST_DOCKER -eq 'installed' ]]; then
+        echo ""
         echo "Docker is installed." 
     else
+        echo ""
         echo "Docker is not installed, installing now..."
         sudo apt update
         sudo apt-get install \
@@ -64,7 +66,7 @@ function checkDeps(){
         sleep 1
         echo "Docker has been installed successfully!"
     fi
-    if ! [[ $LIST_GIT -eq 0 ]]; then
+    if [[ $LIST_GIT -eq 'installed' ]]; then
         echo ""
         echo "Git is installed."    
     else 
@@ -72,11 +74,11 @@ function checkDeps(){
         echo "Git is not installed, installing now..."
         sudo apt install git -y
     fi
-    if ! [[ $LIST_MAVEN -eq 0 ]]; then
+    if [[ $LIST_MAVEN -eq 'installed' ]]; then
         echo ""
         echo "Maven is installed."
     else    
-        sudo apt install maven -y
+        sudo apt install maven openjdk-8-jdk -y
     fi
 }
 
@@ -93,16 +95,23 @@ else
     sudo systemctl enable docker
 fi
 
+sleep 1
+
 # Dockerizing simple java web server (https://github.com/dasanjos/java-WebServer)
 echo ""
 echo "Cloning git repo, building .jar, and creating container..."
 mkdir -p test-java-app
-cd test-java-app
+cd test-java-app/
 git clone https://github.com/dasanjos/java-WebServer.git
 cd java-WebServer
+sleep 2
+echo "Building package..."
 mvn clean package
-cp target/java-WebServer-0.1-jar-with-dependencies.jar ../
-cd ../
+cp target/java-WebServer-0.1-jar-with-dependencies.jar ../../
+sleep 1
+cd /home/$USER/installation-scripts/katholou-dockerize-app
+
+echo ""
 echo "Building docker image..."
 sudo docker build -t simple-java-image .
 sudo docker run --name simple-java-server --publish 55555:55555 --restart always -d -t simple-java-image
