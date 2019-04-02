@@ -64,7 +64,7 @@ function checkDeps(){
         sleep 1
         echo "Docker has been installed successfully!"
     fi
-    if ! [[ $LIST_GIT -eq 0 ]]
+    if ! [[ $LIST_GIT -eq 0 ]]; then
         echo ""
         echo "Git is installed."    
     else 
@@ -72,7 +72,7 @@ function checkDeps(){
         echo "Git is not installed, installing now..."
         sudo apt install git -y
     fi
-    if ! [[ $LIST_MAVEN -eq 0 ]]
+    if ! [[ $LIST_MAVEN -eq 0 ]]; then
         echo ""
         echo "Maven is installed."
     else    
