@@ -18,42 +18,49 @@ cp countries.txt $HOME/
 echo "Installing dependencies..."
 sleep 1
 apt-get update
-apt-get install iptables-dev xtables-addons-common libtext-csv-xs-perl pkg-config iptables-persistent -y
+apt-get install iptables-dev iptables-persistent -y
 
-# Installing needed PERL Module
-cpan -i Net::CIDR::Lite
 
-# Download XTables
-echo ""
-echo "Downloading xtables ..."
-XTABLES_URL="https://downloads.sourceforge.net/project/xtables-addons/Xtables-addons/xtables-addons-3.3.tar.xz"
+ISO="cat $HOME/countries.txt" ### Set PATH ###
+IPT=/sbin/iptables
+WGET=/usr/bin/wget
+EGREP=/bin/egrep ### No editing below ###
+SPAMLIST="countrylist"
+ZONEROOT="/root/iptables"
+DLROOT="http://www.ipdeny.com/ipblocks/data/countries" 
 
-wget -P /tmp $XTABLES_URL
+cleanOldRules(){
+$IPT -F
+$IPT -X
+$IPT -t nat -F
+$IPT -t nat -X
+$IPT -t mangle -F
+$IPT -t mangle -X
+$IPT -P INPUT ACCEPT
+$IPT -P OUTPUT ACCEPT
+$IPT -P FORWARD ACCEPT
+} 
+# create a dir
+[ ! -d $ZONEROOT ] && /bin/mkdir -p $ZONEROOT # clean old rules
+cleanOldRules # create a new iptables list
+$IPT -N $SPAMLIST for c in $ISO
+do
+    # local zone file
+    tDB=$ZONEROOT/$c.zone # get fresh zone file
+    $WGET -O $tDB $DLROOT/$c.zone # country specific log message
+    SPAMDROPMSG="$c Country Drop" # get
+    BADIPS=$(egrep -v "^#|^$" $tDB)
+    for ipblock in $BADIPS
+    do
+    $IPT -A $SPAMLIST -s $ipblock -j LOG --log-prefix "$SPAMDROPMSG"
+    $IPT -A $SPAMLIST -s $ipblock -j DROP
+    done
+done 
 
-cd /tmp
-tar xf xtables-addons-3.3.tar.xz -C $HOME/
-cd $HOME/xtables-addons-3.3
-
-# Compiling addon
-echo "Compiling xtables..."
-echo ""
-sleep 1
-./configure
-make 
-make install
-
-echo "Installing GeoIP Database..."
-echo ""
-mkdir -p /usr/share/xt_geoip/LE
-cd $HOME/xtables-addons-3.3/geoip
-./xt_geoip_dl
-./xt_geoip_build -S GeoLite2-Country-* -D /usr/share/xt_geoip/LE
-
-echo "Setting up Iptables rules..."
-iptables -I INPUT -j ACCEPT
-while read in;
-do iptables -I INPUT -m geoip --src-cc $in -p tcp -m tcp -m multiport --dports 80,443 -j DROP;
-done < /$HOME/countries.txt
+# Drop everything
+$IPT -I INPUT -j $SPAMLIST
+$IPT -I OUTPUT -j $SPAMLIST
+$IPT -I FORWARD -j $SPAMLIST 
 
 echo ""
 echo "Iptables rules are applied..."
