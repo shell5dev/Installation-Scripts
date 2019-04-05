@@ -21,7 +21,7 @@ apt-get update
 apt-get install iptables-dev iptables-persistent -y
 
 
-ISO="cat $HOME/countries.txt" ### Set PATH ###
+ISO="$(cat $HOME/countries.txt)" ### Set PATH ###
 IPT=/sbin/iptables
 WGET=/usr/bin/wget
 EGREP=/bin/egrep ### No editing below ###
@@ -41,9 +41,13 @@ $IPT -P OUTPUT ACCEPT
 $IPT -P FORWARD ACCEPT
 } 
 # create a dir
-[ ! -d $ZONEROOT ] && /bin/mkdir -p $ZONEROOT # clean old rules
+[ ! -d $ZONEROOT ] && /bin/mkdir -p $ZONEROOT 
+
+# clean old rules
 cleanOldRules # create a new iptables list
-$IPT -N $SPAMLIST for c in $ISO
+$IPT -N $SPAMLIST
+
+for c in $ISO
 do
     # local zone file
     tDB=$ZONEROOT/$c.zone # get fresh zone file
