@@ -50,6 +50,7 @@ cd $HOME/xtables-addons-3.3/geoip
 ./xt_geoip_build -S GeoLite2-Country-* -D /usr/share/xt_geoip/LE
 
 echo "Setting up Iptables rules..."
+iptables -P INPUT ACCEPT
 while read in;
 do iptables -I INPUT -m geoip --src-cc $in -p tcp -m tcp -m multiport --dports 80,443 -j DROP;
 done < /$HOME/countries.txt
