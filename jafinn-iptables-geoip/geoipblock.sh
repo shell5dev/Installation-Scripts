@@ -20,11 +20,13 @@ sleep 1
 apt-get update
 apt-get install iptables-dev iptables-persistent -y
 
-
-ISO="$(cat $HOME/countries.txt)" ### Set PATH ###
+# Set PATH
+ISO="$(cat $HOME/countries.txt)" 
 IPT=/sbin/iptables
 WGET=/usr/bin/wget
-EGREP=/bin/egrep ### No editing below ###
+EGREP=/bin/egrep 
+
+# Do not edit below
 SPAMLIST="countrylist"
 ZONEROOT="/root/iptables"
 DLROOT="http://www.ipdeny.com/ipblocks/data/countries" 
@@ -40,19 +42,21 @@ $IPT -P INPUT ACCEPT
 $IPT -P OUTPUT ACCEPT
 $IPT -P FORWARD ACCEPT
 } 
-# create a dir
+# Create directory to store zone files 
 [ ! -d $ZONEROOT ] && /bin/mkdir -p $ZONEROOT 
 
-# clean old rules
-cleanOldRules # create a new iptables list
+# Clear iptables rules
+cleanOldRules 
+
+# Create a new iptables list
 $IPT -N $SPAMLIST
 
 for c in $ISO
 do
-    # local zone file
-    tDB=$ZONEROOT/$c.zone # get fresh zone file
-    $WGET -O $tDB $DLROOT/$c.zone # country specific log message
-    SPAMDROPMSG="$c Country Drop" # get
+    # Local zone file
+    tDB=$ZONEROOT/$c.zone # Get fresh zone file
+    $WGET -O $tDB $DLROOT/$c.zone # Country specific log message
+    SPAMDROPMSG="$c Country Drop" # Get
     BADIPS=$(egrep -v "^#|^$" $tDB)
     for ipblock in $BADIPS
     do
