@@ -2,9 +2,7 @@
 https://forum.shell5.dev/topic/8/drop-reject-all-packets-from-region/
 
 ## Description:
-Utilize iptables's xtables module to geoip block requests on 80/443 ports.
-
-Optimized for Debian 9.
+Blocks all incoming traffic from Asia.
 
 ## Content:
 geoipblock.sh - Script installs needed dependencies, blocks IPs originating from countries in countries.txt file, and optionaly saves iptables rules utilizing netfilter-persistent package. 
