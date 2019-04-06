@@ -1,6 +1,6 @@
 #!/bin/bash -       
 #title           :geoipblock.sh
-#description     :Utilize iptables module xtables to geoip block certain countries on port 80/443 
+#description     :Drops incoming traffic from Asia
 #author	         :ajvn (ivans@vaskir.co)
 #date            :April 5th 2019
 #version         :0.1    
