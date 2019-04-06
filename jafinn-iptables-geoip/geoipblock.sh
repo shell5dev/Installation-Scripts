@@ -69,8 +69,6 @@ $IPT -I FORWARD -j $SPAMLIST
 echo ""
 echo "Iptables rules are applied..."
 sleep 1
-echo ""
-iptables -S
 
 echo ""
 echo "Do you wish to save iptables rules on next reboot? y/n:  "
