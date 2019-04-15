@@ -48,6 +48,7 @@ printf "\n"
 
 #--------------------------------
 
+# Check/list MAC addreses
 check_devices(){
 while read DEVICE_MAC; do
  if sudo nmap -sP $IP_RANGE | grep -q $DEVICE_MAC ; then
@@ -58,16 +59,17 @@ while read DEVICE_MAC; do
 	done < $DEVICES_LIST
 }
 
-
+# Function for time format
 timestamp() {
   date '+%Y-%m-%d %H:%M:%S%z'
 }
 
+# Log function to imprint time
 log() {
   echo "$(timestamp) :: $*" >> "$LOG_FILE"
 }
 
-# SCAN
+# Scan
 
 scan() {
   log "Starting scan of $IP_RANGE"
@@ -78,7 +80,8 @@ scan() {
   fi
   log "Got scan result [${scan_result}]"
 }
-######################
+
+# Scan network
 scannetwork() {
   log "Starting scan for connecitivty to $URL"
   CHECK_CONNECTIVITY="$(wget -q --tries=1 --timeout=10 --spider $URL)"
@@ -91,6 +94,7 @@ scannetwork() {
   log "Got net result [${net_result}]"
 }
 
+# Post if state changed for NET
 post_if_net_state_changed() {
   if [[ "$net_result" != "$net_last_result" ]]; then
     log "Posting net result [${net_result}] to notify because it was different than the last posted result: [${net_last_result}]"
@@ -100,6 +104,8 @@ post_to_slack_internet
   fi
   net_last_result=$net_result
 }
+
+# NET handler
 
 handle_net_result() {
   if [[ "$net_result" == "internet" ]]; then
@@ -118,8 +124,8 @@ handle_net_result() {
   fi
 
 }
-#######################
 
+# Post if MAC state changed
 
 post_if_state_changed() {
   if [[ "$scan_result" != "$last_post" ]]; then
@@ -131,6 +137,8 @@ check_devices
   fi
   last_post=$scan_result
 }
+
+# Handle MAC results
 
 handle_scan_result() {
   if [[ "$scan_result" == "someone_home" ]]; then
@@ -150,6 +158,8 @@ handle_scan_result() {
 
 }
 
+# Forever run loop
+
 scan_forever() {
   while :; do
     scan
@@ -160,6 +170,8 @@ scan_forever() {
   done
 }
 
+# Check for dependencies
+
 check_dependencies() {
   command -v nmap &>/dev/null || { echo "nmap is required but not installed !"; exit 1; }
   command -v flock &>/dev/null || { echo "flock is required but not installed !"; exit 1; }
@@ -167,6 +179,8 @@ check_dependencies() {
   command -v wget &>/dev/null || { echo "wget is required but not installed, !"; exit 1; }
 
  }
+
+# Main function to prevent multi script spawn/run
 
 main() {
    [[ $(id -u) -eq 0 ]] || { echo "Script must be run as root !"; log "Script must be run as root!"; exit 1; }
