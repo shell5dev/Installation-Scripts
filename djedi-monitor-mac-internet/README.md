@@ -1,5 +1,6 @@
 ## Script request:
 
+https://forum.shell5.dev/topic/10/script-to-check-mac-addresses-connected-disconnected-and-connectivity-via-e-mail
 
 ## Content:
 
