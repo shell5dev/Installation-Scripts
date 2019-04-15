@@ -6,6 +6,12 @@ https://forum.shell5.dev/topic/10/script-to-check-mac-addresses-connected-discon
 
 monitor.sh - Script checks if MAC address is connected/disconnected, in case internet is down, it will forward logs via Slack when internet is restored.
 
+## Dependencies:
+
+- wget & curl
+- nmap
+- flock
+
 ## Usage:
 
 Edit script to reflect desired values.
