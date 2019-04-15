@@ -30,9 +30,9 @@ net_result=''
 net_last_result=''
 
 post_to_slack() {
- curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"This is posted to #CHANNEL .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
+curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"This is posted to #CHANNEL .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
 post_to_slack_internet() {
-  curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"Internet was down,here is the log $READ_LOG .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
+curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"Internet was down,here is the log $READ_LOG .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
 
 }
 #--------------------------------
