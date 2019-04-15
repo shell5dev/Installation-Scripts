@@ -51,12 +51,12 @@ printf "\n"
 # Check/list MAC addreses
 check_devices(){
 while read DEVICE_MAC; do
- if sudo nmap -sP $IP_RANGE | grep -q $DEVICE_MAC ; then
-   log "Found $DEVICE_MAC"
-   else
-   log "Not found $DEVICE_MAC"
- fi
-	done < $DEVICES_LIST
+  if sudo nmap -sP $IP_RANGE | grep -q $DEVICE_MAC ; then
+    log "Found $DEVICE_MAC"
+    else
+    log "Not found $DEVICE_MAC"
+  fi
+done < $DEVICES_LIST
 }
 
 # Function for time format
@@ -72,43 +72,43 @@ log() {
 # Scan
 
 scan() {
-  log "Starting scan of $IP_RANGE"
-  if sudo nmap -sn "$IP_RANGE" | grep -if $DEVICES_LIST >> "$LOG_FILE"; then
-    scan_result='someone_home'
-  else
-    scan_result='no_one_home'
-  fi
-  log "Got scan result [${scan_result}]"
+    log "Starting scan of $IP_RANGE"
+if sudo nmap -sn "$IP_RANGE" | grep -if $DEVICES_LIST >> "$LOG_FILE"; then
+   scan_result='someone_home'
+ else
+   scan_result='no_one_home'
+fi
+   log "Got scan result [${scan_result}]"
 }
 
 # Scan network
 scannetwork() {
-  log "Starting scan for connecitivty to $URL"
-  CHECK_CONNECTIVITY="$(wget -q --tries=1 --timeout=10 --spider $URL)"
-  echo $?
-  if [[ $? -eq 0 ]]; then
-  net_result='internet'
+    log "Starting scan for connecitivty to $URL"
+    CHECK_CONNECTIVITY="$(wget -q --tries=1 --timeout=10 --spider $URL)"
+    echo $?
+if [[ $? -eq 0 ]]; then
+    net_result='internet'
   else
     net_last_result='nointernet'
-  fi
-  log "Got net result [${net_result}]"
+fi
+    log "Got net result [${net_result}]"
 }
 
 # Post if state changed for NET
 post_if_net_state_changed() {
-  if [[ "$net_result" != "$net_last_result" ]]; then
+if [[ "$net_result" != "$net_last_result" ]]; then
     log "Posting net result [${net_result}] to notify because it was different than the last posted result: [${net_last_result}]"
 post_to_slack_internet
   else
     log "Skipping notify because scan result [${net_result}] was the same as our last post [${net_last_result}]"
-  fi
+fi
   net_last_result=$net_result
 }
 
 # NET handler
 
 handle_net_result() {
-  if [[ "$net_result" == "internet" ]]; then
+if [[ "$net_result" == "internet" ]]; then
     log "Got a [${net_result}], resetting consecutive empty result count to 0"
     consecutive_empty_result_count=0
     post_if_net_state_changed
@@ -121,7 +121,7 @@ handle_net_result() {
        [[ "$consecutive_empty_result_count" -lt "$EMPTRY_RESULT_THRESHOLD" ]]; then
          post_if_net_state_changed
     fi
-  fi
+fi
 
 }
 
