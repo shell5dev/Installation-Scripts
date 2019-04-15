@@ -64,7 +64,7 @@ timestamp() {
 }
 
 log() {
-echo "$(timestamp) :: $*" >> "$LOG_FILE"
+  echo "$(timestamp) :: $*" >> "$LOG_FILE"
 }
 
 # SCAN
