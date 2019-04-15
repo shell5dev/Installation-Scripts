@@ -16,7 +16,7 @@ monitor.sh - Script checks if MAC address is connected/disconnected, in case int
 
 Edit script to reflect desired values.
 
-Populate the devices.list file with UPPER CASE MAC addresses - for example 1A:2B:3C:4D:5E:6F
+Populate the *devices.list* file with UPPER CASE MAC addresses - for example 1A:2B:3C:4D:5E:6F
 
 **IP_RANGE="X.X.X.X-XXX"** # Enter IP range to process scan with nmap
 
