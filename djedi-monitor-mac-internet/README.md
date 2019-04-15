@@ -12,12 +12,12 @@ Edit script to reflect desired values.
 
 Populate the devices.list file with UPPER CASE MAC addresses - for example 1A:2B:3C:4D:5E:6F
 
-IP_RANGE="X.X.X.X-XXX" # Enter IP range to process scan with nmap
+**IP_RANGE="X.X.X.X-XXX"** # Enter IP range to process scan with nmap
 
-SLEEP_INTERVAL="${SLEEP_INTERVAL:=5}" # Sleep interval in Seconds (Increase this size to number of seconds that you want the script to run)
+**SLEEP_INTERVAL="${SLEEP_INTERVAL:=5}"** # Sleep interval in Seconds (Increase this size to number of seconds that you want the script to run)
 
 ### Optional parameters
-
+```text
 DEVICES_LIST=/tmp/devices.list
 LOG_FILE="${LOG_FILE:=/tmp/scan.log}"
 READ_LOG=$(cat /tmp/scan.log)
@@ -25,6 +25,7 @@ STATUSLOG=/tmp/STATUSLOG
 URL=https://google.com
 LOCKFILE="${LOCKFILE:=/tmp/scan_network.lock}"
 EMPTRY_RESULT_THRESHOLD="${EMPTY_SCAN_THRESHOLD:=20}"
+```
 
 2. After you enter these parameters in script itself run it with:
 
