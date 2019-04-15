@@ -16,6 +16,15 @@ Populate the devices.list file with UPPER CASE MAC addresses - for example 1A:2B
 
 **SLEEP_INTERVAL="${SLEEP_INTERVAL:=5}"** # Sleep interval in Seconds (Increase this size to number of seconds that you want the script to run)
 
+
+Edit Slack/Mattermost or similar hooks for notificaiton, here is example for Slack
+```text
+post_to_slack() {
+ curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"This is posted to #CHANNEL .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
+post_to_slack_internet() {
+  curl -X POST --data-urlencode "payload={\"channel\": \"#CHANNELHERE\", \"username\": \"USERNAMEHERE\", \"text\": \"Internet was down,here is the log $READ_LOG .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/#THEHOOK
+```
+
 ### Optional parameters
 ```text
 DEVICES_LIST=/tmp/devices.list
