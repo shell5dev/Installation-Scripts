@@ -141,7 +141,7 @@ check_devices
 # Handle MAC results
 
 handle_scan_result() {
-  if [[ "$scan_result" == "someone_home" ]]; then
+if [[ "$scan_result" == "someone_home" ]]; then
     log "Got a [${scan_result}], resetting consecutive empty result count to 0"
     consecutive_empty_result_count=0
     post_if_state_changed
@@ -154,7 +154,7 @@ handle_scan_result() {
        [[ "$consecutive_empty_result_count" -lt "$EMPTRY_RESULT_THRESHOLD" ]]; then
          post_if_state_changed
     fi
-  fi
+fi
 
 }
 
