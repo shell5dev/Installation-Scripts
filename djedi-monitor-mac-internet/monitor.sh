@@ -9,7 +9,6 @@
 #notes           :Be sure to setup cronjob that will run this script
 #bash_version    :GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin18)
 
-
 set -u
 
 # VARS
