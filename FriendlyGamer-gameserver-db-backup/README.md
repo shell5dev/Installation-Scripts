@@ -21,6 +21,17 @@ Debian based OS(Ubuntu or similar) `apt-get install zip rsync mailx`
 RHEL based OS (CentOS or similar) `yum install zip rsync mailx`
 
 
+## rsync
+
+To be able to use rsyng, you will need to generate ssh pub/priv keys:
+
+`ssh-keygen -T RSA`
+
+To copy the public key to backup server issue:
+
+`ssh-copy-id user@backupserver.com`
+
+
 ### Variables to adjust within script:
 
 ```
