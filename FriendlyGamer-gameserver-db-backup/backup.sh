@@ -12,7 +12,7 @@
 
 
 #PATHS
-dbpath=/path/to/all/db # Path to your .db files
+dbpath=/path/to/all/db # Path to your .sqlite files
 backup_location=/path/to/backup/directory # Location of where backup will be stored
 server_files=/path/to/game_server_files # Location of game server files
 backup_server="user@example.com:/backup/location" #Server where to send the backups
@@ -44,9 +44,9 @@ if ! [ -x "$(command -v mailx)" ]; then
 fi
 
 #Make multiple DB Backup
-for dbname in "$dpath"/*.db
+for dbname in "$dpath"/*.sqlite
 do
-sqlite3 $dbpath ".backup '$backup_location/backup."$dbname".$(date +"%d-%m-%y").db'"
+sqlite3 $dbpath ".backup '$backup_location/backup."$dbname".$(date +"%d-%m-%y").sqlite'"
 done
 
 # Make files backup
@@ -56,7 +56,7 @@ zip -r $backup_location/serverfiles.(date +"%d-%m-%y").zip $server_files/*
 rsync -r -z -c $backup_location/* $backup_server
 if [ "$?" -eq "0" ]
 then
-  rm -rf $backup_location/backup.$(date +"%d-%m-%y").db  #Delete DB for current day
+  rm -rf $backup_location/backup.$(date +"%d-%m-%y").sqlite  #Delete DB for current day
   rm -rf $backup_location/serverfiles.(date +"%d-%m-%y").zip #Delete files for current day
   echo "Done"
   echo "Subject: Success" > $backup_status
