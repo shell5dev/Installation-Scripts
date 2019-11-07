@@ -12,7 +12,7 @@
 
 
 #PATHS
-dbpath=/path/to/game.db # Path to your .db file
+dbpath=/path/to/all/db # Path to your .db files
 backup_location=/path/to/backup/directory # Location of where backup will be stored
 server_files=/path/to/game_server_files # Location of game server files
 backup_server="user@example.com:/backup/location" #Server where to send the backups
@@ -43,8 +43,11 @@ if ! [ -x "$(command -v mailx)" ]; then
   exit 1
 fi
 
-#Make DB Backup
-sqlite3 $dbpath ".backup '$backup_location/backup.$(date +"%d-%m-%y").db'"
+#Make multiple DB Backup
+for dbname in "$dpath"/*.db
+do
+sqlite3 $dbpath ".backup '$backup_location/backup."$dbname".$(date +"%d-%m-%y").db'"
+done
 
 # Make files backup
 zip -r $backup_location/serverfiles.(date +"%d-%m-%y").zip $server_files/*
