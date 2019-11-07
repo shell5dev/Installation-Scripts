@@ -17,4 +17,5 @@ Installed packages:
 Obtain them by running:
 
 Debian based OS(Ubuntu or similar) `apt-get install zip rsync mailx`
+
 RHEL based OS (CentOS or similar) `yum install zip rsync mailx`
