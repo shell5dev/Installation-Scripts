@@ -47,7 +47,7 @@ fi
 sqlite3 $dbpath ".backup '$backup_location/backup.$(date +"%d-%m-%y").db'"
 
 # Make files backup
-zip -r $backup_location/serverfiles.(date +"%d-%m-%y").zip $server_files
+zip -r $backup_location/serverfiles.(date +"%d-%m-%y").zip $server_files/*
 
 # Send backups to the server
 rsync -r -z -c $backup_location/* $backup_server
