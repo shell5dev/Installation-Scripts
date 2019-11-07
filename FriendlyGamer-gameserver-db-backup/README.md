@@ -12,7 +12,7 @@ Installed packages:
 
 - zip
 - rsync
--mailx
+- mailx
 
 Obtain them by running:
 
